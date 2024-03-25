@@ -39,6 +39,90 @@
             android:orientation="horizontal"
             tools:ignore="HardcodedText">
 
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ToggleButton
+
+                    android:id="@+id/super_btn"
+                    android:layout_column="0"
+                    android:layout_row="1"
+                    style="@style/VirtualKey.Toggle.Image"
+                    android:contentDescription="Super key"
+                    android:drawableStart="@drawable/ic_super_key"
+                    app:onCheckedChangeListener="@{(v,checked) -> h.onKeyEvent(KeyEvent.KEYCODE_META_LEFT, checked)}" />
+
+                <ToggleButton
+                    android:id="@+id/shift_btn"
+                    style="@style/VirtualKey.Toggle"
+                    android:textOff="Shift"
+                    android:textOn="Shift"
+                    app:isVisible="@{showAll}"
+                    app:onCheckedChangeListener="@{(v,checked) -> h.onKeyEvent(KeyEvent.KEYCODE_SHIFT_RIGHT, checked)}" />
+
+                <ToggleButton
+                    android:id="@+id/ctrl_btn"
+                    style="@style/VirtualKey.Toggle"
+                    android:textOff="Ctrl"
+                    android:textOn="Ctrl"
+                    app:onCheckedChangeListener="@{(v,checked) -> h.onKeyEvent(KeyEvent.KEYCODE_CTRL_RIGHT, checked)}" />
+
+                <ToggleButton
+                    android:id="@+id/alt_btn"
+                    style="@style/VirtualKey.Toggle"
+                    android:textOff="Alt"
+                    android:textOn="Alt"
+                    app:onCheckedChangeListener="@{(v,checked) -> h.onKeyEvent(KeyEvent.KEYCODE_ALT_RIGHT, checked)}" />
+
+                <!--AppCompatButton is used instead of Button to disable Material styles-->
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/VirtualKey"
+                    android:onClick="@{() -> h.onKey(KeyEvent.KEYCODE_TAB)}"
+                    android:text="Tab"
+                    app:isRepeatable="@{true}" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/VirtualKey"
+                    android:onClick="@{() -> h.onKey(KeyEvent.KEYCODE_ESCAPE)}"
+                    android:text="Esc"
+                    app:isRepeatable="@{true}"
+                    app:isVisible="@{showAll}" />
+
+
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~ Arrow keys ~~~~~~~~~~~~~~~~~~~~~~~-->
+
+                <ImageButton
+                    style="@style/VirtualKey.Image"
+                    android:contentDescription="Left"
+                    android:onClick="@{() -> h.onKey(KeyEvent.KEYCODE_DPAD_LEFT)}"
+                    android:src="@drawable/ic_keyboard_arrow_left"
+                    app:isRepeatable="@{true}" />
+
+                <ImageButton
+                    style="@style/VirtualKey.Image"
+                    android:contentDescription="Up"
+                    android:onClick="@{() -> h.onKey(KeyEvent.KEYCODE_DPAD_UP)}"
+                    android:src="@drawable/ic_keyboard_arrow_up"
+                    app:isRepeatable="@{true}" />
+
+                <ImageButton
+                    style="@style/VirtualKey.Image"
+                    android:contentDescription="Down"
+                    android:onClick="@{() -> h.onKey(KeyEvent.KEYCODE_DPAD_DOWN)}"
+                    android:src="@drawable/ic_keyboard_arrow_down"
+                    app:isRepeatable="@{true}" />
+
+                <ImageButton
+                    style="@style/VirtualKey.Image"
+                    android:contentDescription="Right"
+                    android:onClick="@{() -> h.onKey(KeyEvent.KEYCODE_DPAD_RIGHT)}"
+                    android:src="@drawable/ic_keyboard_arrow_right"
+                    app:isRepeatable="@{true}" />
+
+
+            </GridLayout>
+
             <ImageButton
                 android:id="@+id/hide_btn"
                 style="@style/VirtualKey.Image"
