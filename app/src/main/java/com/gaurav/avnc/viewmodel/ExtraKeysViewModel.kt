@@ -21,9 +21,5 @@ class ExtraKeysViewModel(app: Application) : BaseViewModel(app) {
     val isShiftChecked = MutableLiveData(false)
     val isMetaChecked = MutableLiveData(false)
 
-    val isAltLocked = MutableLiveData(false)
-    val isCtrlChecked = MutableLiveData(false)
-    val isShiftChecked = MutableLiveData(false)
-    val isMetaChecked = MutableLiveData(false)
 
 }
