@@ -80,15 +80,21 @@ class VirtualKeys(activity: VncActivity) {
     }
 
     private fun initControls(binding: VirtualKeysBinding) {
-        binding.editorBtn.setOnCheckedChangeListener { _, isChecked ->
-            binding.editor.isVisible = isChecked
-            if (isChecked)
-                binding.editor.requestFocus()
-            else
-                frameView.requestFocus()
+        binding.showEditorBtn.setOnClickListener {
+            binding.keys.isVisible = false
+            binding.editor.isVisible = true
+            binding.editBox.width = binding.primaryKeys.width - binding.hideBtn.width
+            binding.editBox.requestFocus()
+
         }
-        binding.editor.setOnEditorActionListener { _, _, _ ->
-            binding.editor.setText("")
+        binding.closeEditorBtn.setOnClickListener {
+            binding.keys.isVisible = true
+            binding.editor.isVisible = false
+            frameView.requestFocus()
+        }
+
+        binding.editBox.setOnEditorActionListener { _, _, _ ->
+            binding.editBox.setText("")
             true
         }
     }
