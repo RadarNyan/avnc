@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021  Gaurav Ujjwal.
+  ~
+  ~ SPDX-License-Identifier:  GPL-3.0-or-later
+  ~
+  ~ See COPYING.txt for more details.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ More keys ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <GridLayout
+        android:id="@+id/secondary_keys"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:rowCount="2">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_insert"
+            style="@style/VirtualKey"
+            android:text="Insert" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_delete"
+            style="@style/VirtualKey"
+            android:text="Delete" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f1"
+            style="@style/VirtualKey.Compact"
+            android:text="F1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f2"
+            style="@style/VirtualKey.Compact"
+            android:text="F2" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f3"
+            style="@style/VirtualKey.Compact"
+            android:text="F3" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f4"
+            style="@style/VirtualKey.Compact"
+            android:text="F4" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f5"
+            style="@style/VirtualKey.Compact"
+            android:text="F5" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f6"
+            style="@style/VirtualKey.Compact"
+            android:text="F6" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f7"
+            style="@style/VirtualKey.Compact"
+            android:text="F7" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f8"
+            style="@style/VirtualKey.Compact"
+            android:text="F8" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f9"
+            style="@style/VirtualKey.Compact"
+            android:text="F9" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f10"
+            style="@style/VirtualKey.Compact"
+            android:text="F10" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f11"
+            style="@style/VirtualKey.Compact"
+            android:text="F11" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vk_f12"
+            style="@style/VirtualKey.Compact"
+            android:text="F12" />
+
+    </GridLayout>
+
+</layout>

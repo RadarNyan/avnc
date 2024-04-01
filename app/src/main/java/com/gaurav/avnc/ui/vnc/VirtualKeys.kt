@@ -10,11 +10,16 @@ package com.gaurav.avnc.ui.vnc
 
 import android.annotation.SuppressLint
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import android.view.ViewGroup
 import android.widget.ToggleButton
-import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
+import com.gaurav.avnc.databinding.VirtualKeys1Binding
+import com.gaurav.avnc.databinding.VirtualKeys2Binding
+import com.gaurav.avnc.databinding.VirtualKeys3Binding
 import com.gaurav.avnc.databinding.VirtualKeysBinding
 
 /**
@@ -67,71 +72,119 @@ class VirtualKeys(activity: VncActivity) {
         toggleKeys.forEach { if (!lockedToggleKeys.contains(it)) it.isChecked = false }
     }
 
+    private var viewForPagerSize: View? = null
+
     private fun init() {
         if (stub.isInflated)
             return
 
         stub.viewStub?.inflate()
         val binding = stub.binding as VirtualKeysBinding
-        binding.secondaryKeys.isVisible = pref.vkShowAll
-        binding.hideBtn.setOnClickListener { hide() }
-        initControls(binding)
-        initKeys(binding)
-    }
 
-    private fun initControls(binding: VirtualKeysBinding) {
-        binding.showEditorBtn.setOnClickListener {
-            binding.keys.isVisible = false
-            binding.editor.isVisible = true
-            binding.editBox.width = binding.primaryKeys.width - binding.hideBtn.width
-            binding.editBox.requestFocus()
+        val adapter = PagerAdapter()
+        binding.root.alpha = 0f
+        binding.pager.adapter = adapter
+        binding.pager.offscreenPageLimit = 3
 
-        }
-        binding.closeEditorBtn.setOnClickListener {
-            binding.keys.isVisible = true
-            binding.editor.isVisible = false
-            frameView.requestFocus()
-        }
 
-        binding.editBox.setOnEditorActionListener { _, _, _ ->
-            binding.editBox.setText("")
-            true
+
+
+        binding.pager.addOnLayoutChangeListener { v, left, _, right, _, _, _, _, _ ->
+            val newWidth = (right - left)
+            viewForPagerSize?.let {
+                if (newWidth != it.width) {
+                    v.layoutParams = v.layoutParams.apply { width = it.width }
+                    v.post {
+                        v.requestLayout()
+                    }
+                } else {
+                    binding.root.alpha = 1f
+                }
+            }
         }
     }
 
-    private fun initKeys(binding: VirtualKeysBinding) {
-        initToggleKey(binding.vkSuper, KeyEvent.KEYCODE_META_LEFT)
-        initToggleKey(binding.vkShift, KeyEvent.KEYCODE_SHIFT_RIGHT) // See if we can switch to 'left' versions of these
-        initToggleKey(binding.vkAlt, KeyEvent.KEYCODE_ALT_RIGHT)
-        initToggleKey(binding.vkCtrl, KeyEvent.KEYCODE_CTRL_RIGHT)
+    private inner class PagerAdapter : RecyclerView.Adapter<PagerAdapter.ViewHolder>() {
+        val viewList = mutableListOf<View>()
 
-        initNormalKey(binding.vkEsc, KeyEvent.KEYCODE_ESCAPE)
-        initNormalKey(binding.vkTab, KeyEvent.KEYCODE_TAB)
-        initNormalKey(binding.vkHome, KeyEvent.KEYCODE_MOVE_HOME)
-        initNormalKey(binding.vkEnd, KeyEvent.KEYCODE_MOVE_END)
-        initNormalKey(binding.vkPageUp, KeyEvent.KEYCODE_PAGE_UP)
-        initNormalKey(binding.vkPageDown, KeyEvent.KEYCODE_PAGE_DOWN)
-        initNormalKey(binding.vkInsert, KeyEvent.KEYCODE_INSERT)
-        initNormalKey(binding.vkDelete, KeyEvent.KEYCODE_FORWARD_DEL)
+        private inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
-        initNormalKey(binding.vkLeft, KeyEvent.KEYCODE_DPAD_LEFT)
-        initNormalKey(binding.vkRight, KeyEvent.KEYCODE_DPAD_RIGHT)
-        initNormalKey(binding.vkUp, KeyEvent.KEYCODE_DPAD_UP)
-        initNormalKey(binding.vkDown, KeyEvent.KEYCODE_DPAD_DOWN)
+        override fun getItemCount() = 3
+        override fun getItemViewType(position: Int) = position
 
-        initNormalKey(binding.vkF1, KeyEvent.KEYCODE_F1)
-        initNormalKey(binding.vkF2, KeyEvent.KEYCODE_F2)
-        initNormalKey(binding.vkF3, KeyEvent.KEYCODE_F3)
-        initNormalKey(binding.vkF4, KeyEvent.KEYCODE_F4)
-        initNormalKey(binding.vkF5, KeyEvent.KEYCODE_F5)
-        initNormalKey(binding.vkF6, KeyEvent.KEYCODE_F6)
-        initNormalKey(binding.vkF7, KeyEvent.KEYCODE_F7)
-        initNormalKey(binding.vkF8, KeyEvent.KEYCODE_F8)
-        initNormalKey(binding.vkF9, KeyEvent.KEYCODE_F9)
-        initNormalKey(binding.vkF10, KeyEvent.KEYCODE_F10)
-        initNormalKey(binding.vkF11, KeyEvent.KEYCODE_F11)
-        initNormalKey(binding.vkF12, KeyEvent.KEYCODE_F12)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val view = when (viewType) {
+                0 -> createPage1(inflater, parent)
+                1 -> createPage2(inflater, parent)
+                2 -> createPage3(inflater, parent)
+                else -> throw IllegalStateException("Unexpected view type: [$viewType]")
+            }
+            viewList.add(view)
+            return ViewHolder(view)
+        }
+
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {}
     }
+
+    private fun createPage1(inflater: LayoutInflater, parent: ViewGroup): View {
+        VirtualKeys1Binding.inflate(inflater, parent, false).let {
+            viewForPagerSize = it.primaryKeys
+            it.hideBtn.setOnClickListener { hide() }
+
+            initToggleKey(it.vkSuper, KeyEvent.KEYCODE_META_LEFT)
+            initToggleKey(it.vkShift, KeyEvent.KEYCODE_SHIFT_RIGHT) // See if we can switch to 'left' versions of these
+            initToggleKey(it.vkAlt, KeyEvent.KEYCODE_ALT_RIGHT)
+            initToggleKey(it.vkCtrl, KeyEvent.KEYCODE_CTRL_RIGHT)
+
+            initNormalKey(it.vkEsc, KeyEvent.KEYCODE_ESCAPE)
+            initNormalKey(it.vkTab, KeyEvent.KEYCODE_TAB)
+            initNormalKey(it.vkHome, KeyEvent.KEYCODE_MOVE_HOME)
+            initNormalKey(it.vkEnd, KeyEvent.KEYCODE_MOVE_END)
+            initNormalKey(it.vkPageUp, KeyEvent.KEYCODE_PAGE_UP)
+            initNormalKey(it.vkPageDown, KeyEvent.KEYCODE_PAGE_DOWN)
+
+
+            initNormalKey(it.vkLeft, KeyEvent.KEYCODE_DPAD_LEFT)
+            initNormalKey(it.vkRight, KeyEvent.KEYCODE_DPAD_RIGHT)
+            initNormalKey(it.vkUp, KeyEvent.KEYCODE_DPAD_UP)
+            initNormalKey(it.vkDown, KeyEvent.KEYCODE_DPAD_DOWN)
+            return it.root
+        }
+    }
+
+    private fun createPage2(inflater: LayoutInflater, parent: ViewGroup): View {
+        VirtualKeys2Binding.inflate(inflater, parent, false).let {
+            initNormalKey(it.vkInsert, KeyEvent.KEYCODE_INSERT)
+            initNormalKey(it.vkDelete, KeyEvent.KEYCODE_FORWARD_DEL)
+
+            initNormalKey(it.vkF1, KeyEvent.KEYCODE_F1)
+            initNormalKey(it.vkF2, KeyEvent.KEYCODE_F2)
+            initNormalKey(it.vkF3, KeyEvent.KEYCODE_F3)
+            initNormalKey(it.vkF4, KeyEvent.KEYCODE_F4)
+            initNormalKey(it.vkF5, KeyEvent.KEYCODE_F5)
+            initNormalKey(it.vkF6, KeyEvent.KEYCODE_F6)
+            initNormalKey(it.vkF7, KeyEvent.KEYCODE_F7)
+            initNormalKey(it.vkF8, KeyEvent.KEYCODE_F8)
+            initNormalKey(it.vkF9, KeyEvent.KEYCODE_F9)
+            initNormalKey(it.vkF10, KeyEvent.KEYCODE_F10)
+            initNormalKey(it.vkF11, KeyEvent.KEYCODE_F11)
+            initNormalKey(it.vkF12, KeyEvent.KEYCODE_F12)
+            return it.root
+        }
+    }
+
+    private fun createPage3(inflater: LayoutInflater, parent: ViewGroup): View {
+        VirtualKeys3Binding.inflate(inflater, parent, false).let {
+            it.editBox.setOnEditorActionListener { _, _, _ ->
+                it.editBox.setText("")
+                true
+            }
+            return it.root
+        }
+    }
+
 
     private fun initToggleKey(key: ToggleButton, keyCode: Int) {
         key.setOnCheckedChangeListener { _, isChecked ->
