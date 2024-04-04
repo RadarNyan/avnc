@@ -85,6 +85,8 @@ import com.gaurav.avnc.vnc.XTKeyCode
  */
 class KeyHandler(private val dispatcher: Dispatcher, private val cfLegacyKeysym: Boolean, prefs: AppPreferences) {
 
+    var processedEventObserver: ((KeyEvent) -> Unit)? = null
+
     /**
      * Pre-KeyEvent hook.
      * This is NOT triggered for all characters.
@@ -110,7 +112,10 @@ class KeyHandler(private val dispatcher: Dispatcher, private val cfLegacyKeysym:
         if (shouldIgnoreEvent(event))
             return false
 
-        return handleKeyEvent(preProcessEvent(event))
+        handleKeyEvent(preProcessEvent(event)).let {
+            processedEventObserver?.invoke(event)
+            return it
+        }
     }
 
 

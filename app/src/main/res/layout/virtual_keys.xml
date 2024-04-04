@@ -6,19 +6,263 @@
   ~ See COPYING.txt for more details.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
+
+    <com.gaurav.avnc.ui.vnc.CustomHScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?colorSurface"
+        android:backgroundTint="#cfff"
+        android:backgroundTintMode="multiply">
+
+        <!-- Note: 'AppCompatButton's are used instead of 'Button' to disable Material styles which are not suitable for virtual keys-->
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:background="?colorSurface"
-                    android:backgroundTint="#cfff"
-                    android:backgroundTintMode="multiply"
-                    android:id="@+id/pager"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/tmp_page_host"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Virtual Keys"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="invisible"
+                tools:ignore="HardcodedText"
+                tools:orientation="vertical"
+                tools:visibility="visible">
+
+                <GridLayout
+                    android:id="@+id/primary_keys"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:rowCount="2">
+
+
+                    <ImageButton
+                        android:id="@+id/editor_btn"
+                        style="@style/VirtualKey.Image"
+                        android:layout_gravity="center"
+                        android:contentDescription="Show edit box"
+                        android:minWidth="30dp"
+                        android:src="@drawable/ic_text_edit"
+                        app:tint="?colorPrimary" />
+
+                    <ImageButton
+                        android:id="@+id/hide_btn"
+                        style="@style/VirtualKey.Image"
+                        android:layout_gravity="center"
+                        android:contentDescription="Hide Virtual Keys"
+                        android:minWidth="30dp"
+                        android:src="@drawable/ic_clear"
+                        app:tint="?colorPrimary" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_esc"
+                        style="@style/VirtualKey"
+                        android:text="Esc" />
+
+                    <ToggleButton
+                        android:id="@+id/vk_super"
+                        style="@style/VirtualKey.Toggle.Image"
+                        android:contentDescription="Super key"
+                        android:drawableStart="@drawable/ic_super_key" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_tab"
+                        style="@style/VirtualKey"
+                        android:text="Tab" />
+
+                    <ToggleButton
+                        android:id="@+id/vk_ctrl"
+                        style="@style/VirtualKey.Toggle"
+                        android:textOff="Ctrl"
+                        android:textOn="Ctrl" />
+
+                    <ToggleButton
+                        android:id="@+id/vk_shift"
+                        style="@style/VirtualKey.Toggle"
+                        android:textOff="Shift"
+                        android:textOn="Shift" />
+
+                    <ToggleButton
+                        android:id="@+id/vk_alt"
+                        style="@style/VirtualKey.Toggle"
+                        android:textOff="Alt"
+                        android:textOn="Alt" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_home"
+                        style="@style/VirtualKey"
+                        android:text="Home" />
+
+                    <ImageButton
+                        android:id="@+id/vk_left"
+                        style="@style/VirtualKey.Image"
+                        android:contentDescription="Left"
+                        android:src="@drawable/ic_keyboard_arrow_left" />
+
+                    <ImageButton
+                        android:id="@+id/vk_up"
+                        style="@style/VirtualKey.Image"
+                        android:contentDescription="Up"
+                        android:src="@drawable/ic_keyboard_arrow_up" />
+
+                    <ImageButton
+                        android:id="@+id/vk_down"
+                        style="@style/VirtualKey.Image"
+                        android:contentDescription="Down"
+                        android:src="@drawable/ic_keyboard_arrow_down" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_end"
+                        style="@style/VirtualKey"
+                        android:text="End" />
+
+                    <ImageButton
+                        android:id="@+id/vk_right"
+                        style="@style/VirtualKey.Image"
+                        android:contentDescription="Right"
+                        android:src="@drawable/ic_keyboard_arrow_right" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_page_up"
+                        style="@style/VirtualKey"
+                        android:text="PgUp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_page_down"
+                        style="@style/VirtualKey"
+                        android:text="PgDn" />
+
+                </GridLayout>
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ More keys ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <GridLayout
+                    android:id="@+id/secondary_keys"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:rowCount="2">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_insert"
+                        style="@style/VirtualKey"
+                        android:text="Insert" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_delete"
+                        style="@style/VirtualKey"
+                        android:text="Delete" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f1"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F1" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f2"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F2" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f3"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F3" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f4"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F4" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f5"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F5" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f6"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F6" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f7"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F7" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f8"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F8" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f9"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F9" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f10"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F10" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f11"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F11" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/vk_f12"
+                        style="@style/VirtualKey.Compact"
+                        android:text="F12" />
+
+                </GridLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/padding_small"
+                    android:paddingEnd="@dimen/padding_normal">
+
+                    <ImageButton
+                        android:id="@+id/close_editor_btn"
+                        style="@style/VirtualKey.Image"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="Close editor"
+                        android:minWidth="30dp"
+                        android:padding="@dimen/padding_small"
+                        android:src="@drawable/ic_arrow_back"
+                        app:tint="?colorPrimary" />
+
+                    <EditText
+                        android:id="@+id/edit_box"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:contentDescription="Send text to server"
+                        android:imeOptions="actionSend|flagNoFullscreen|flagNoExtractUi"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:minWidth="100sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </FrameLayout>
 
+    </com.gaurav.avnc.ui.vnc.CustomHScrollView>
 </layout>
