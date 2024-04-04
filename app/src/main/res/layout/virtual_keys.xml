@@ -75,6 +75,7 @@
                     <ToggleButton
                         android:id="@+id/vk_super"
                         style="@style/VirtualKey.Toggle.Image"
+                        android:layout_gravity="center"
                         android:contentDescription="Super key"
                         android:drawableStart="@drawable/ic_super_key" />
 
