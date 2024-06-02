@@ -8,6 +8,7 @@
 
 package com.gaurav.avnc.ui.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -27,6 +28,7 @@ import com.gaurav.avnc.databinding.ServerSavedBinding
 import com.gaurav.avnc.databinding.ServerSavedItemBinding
 import com.gaurav.avnc.model.ServerProfile
 import com.gaurav.avnc.ui.home.ServerTabs.PagerAdapter.ViewHolder
+import com.gaurav.avnc.util.broadcastWoLPackets
 import com.gaurav.avnc.util.setClipboardText
 import com.gaurav.avnc.viewmodel.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -231,6 +233,8 @@ class ServerTabs(val activity: HomeActivity) {
 
             rootView.setOnCreateContextMenuListener { contextMenu, view, _ ->
                 MenuInflater(view.context).inflate(contextMenuId, contextMenu)
+                if (profile.wolMAC.isBlank())
+                    contextMenu.removeItem(R.id.wol)
                 contextMenu.forEach { item ->
                     item.setOnMenuItemClickListener { onContextMenuItemClick(it) }
                 }
@@ -244,6 +248,7 @@ class ServerTabs(val activity: HomeActivity) {
                 R.id.delete -> homeViewModel.deleteProfile(profile)
                 R.id.copy_host -> copyToClipboard(profile.host)
                 R.id.copy_name -> copyToClipboard(profile.name)
+                R.id.wol -> sendWoL(profile.wolMAC)
             }
             return true
         }
@@ -254,6 +259,17 @@ class ServerTabs(val activity: HomeActivity) {
                     Snackbar.make(rootView, R.string.msg_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
                 else
                     Snackbar.make(rootView, "Unable to copy text", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
+        private fun sendWoL(macAddress: String) {
+            homeViewModel.viewModelScope.launch {
+                runCatching { broadcastWoLPackets(macAddress) }
+                        .onSuccess { Snackbar.make(rootView, "Wake-on-LAN packet sent", Snackbar.LENGTH_SHORT).show() }
+                        .onFailure {
+                            Snackbar.make(rootView, "Error: ${it.message} ", Snackbar.LENGTH_LONG).show()
+                            Log.e("WakeOnLAN", "Error sending packet: ${it.message} ", it)
+                        }
             }
         }
     }

@@ -344,6 +344,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/username" />
 
+                <!--Wake-on-LAN-->
+                <EditText
+                    android:id="@+id/wol_mac"
+                    style="@style/FormField.EditText"
+                    android:drawableStart="@drawable/ic_wake_on_lan"
+                    android:hint="@string/hint_wol_mac"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@={viewModel.profile.wolMAC}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/password" />
+
+                <ImageButton
+                    android:id="@+id/wol_help_btn"
+                    style="@style/ImageButton"
+                    android:contentDescription="@string/desc_help_btn"
+                    android:src="@drawable/ic_help"
+                    app:layout_constraintBottom_toBottomOf="@id/wol_mac"
+                    app:layout_constraintEnd_toEndOf="@id/wol_mac"
+                    app:layout_constraintTop_toTopOf="@id/wol_mac"
+                    app:tint="?colorControlNormal" />
+
 
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!-- SSH Tunnel                                                 -->
@@ -356,7 +379,7 @@
                     android:text="@string/title_use_ssh_tunnel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/password" />
+                    app:layout_constraintTop_toBottomOf="@id/wol_mac" />
 
                 <!--SSH Options-->
                 <androidx.constraintlayout.widget.ConstraintLayout

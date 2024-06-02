@@ -166,6 +166,12 @@ data class ServerProfile(
         var resizeRemoteDesktop: Boolean = false,
 
         /**
+         * MAC address for Wake-on-LAN
+         */
+        @ColumnInfo(defaultValue = "")
+        var wolMAC: String = "",
+
+        /**
          * These values are used for SSH Tunnel
          */
         var sshHost: String = "",

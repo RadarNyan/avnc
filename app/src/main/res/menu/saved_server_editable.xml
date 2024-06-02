@@ -19,4 +19,7 @@
     <item
         android:id="@+id/delete"
         android:title="@string/title_delete" />
+    <item
+        android:id="@+id/wol"
+        android:title="Send WoL Packet" />
 </menu>
