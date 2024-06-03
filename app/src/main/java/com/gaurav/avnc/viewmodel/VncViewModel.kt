@@ -19,6 +19,7 @@ import com.gaurav.avnc.ui.vnc.FrameScroller
 import com.gaurav.avnc.ui.vnc.FrameState
 import com.gaurav.avnc.ui.vnc.FrameView
 import com.gaurav.avnc.util.LiveRequest
+import com.gaurav.avnc.util.broadcastWoLPackets
 import com.gaurav.avnc.util.getClipboardText
 import com.gaurav.avnc.util.setClipboardText
 import com.gaurav.avnc.viewmodel.service.HostKey
@@ -216,6 +217,9 @@ class VncViewModel(val profile: ServerProfile, app: Application) : BaseViewModel
 
         if (profile.useRepeater)
             client.setupRepeater(profile.idOnRepeater)
+
+        if (profile.wolMAC.isNotBlank())
+            runCatching { runBlocking { broadcastWoLPackets(profile.wolMAC) } }
     }
 
     private fun connect() {
