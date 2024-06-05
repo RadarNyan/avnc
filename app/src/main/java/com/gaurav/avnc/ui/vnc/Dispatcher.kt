@@ -298,6 +298,9 @@ class Dispatcher(private val activity: VncActivity) {
             }
             doButtonDown(PointerButton.None, pointerPosition)
 
+            //Quick dirty workaround: lock viewport when zoom lock is enabled
+            if (profile.fZoomLocked) return
+
             //Try to keep the pointer centered on screen
             val vp = viewModel.frameState.toVP(pointerPosition)
             val centerDiffX = viewModel.frameState.safeArea.centerX() - vp.x
