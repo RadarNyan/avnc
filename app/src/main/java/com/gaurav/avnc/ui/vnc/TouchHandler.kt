@@ -171,7 +171,7 @@ class TouchHandler(private val viewModel: VncViewModel, private val dispatcher: 
      * Finger Gestures (and everything else beside mouse & stylus)
      ****************************************************************************************/
     private val scaleDetector = ScaleGestureDetector(viewModel.app, this).apply { isQuickScaleEnabled = false }
-    private val gestureDetector = GestureDetectorEx(viewModel.app, FingerGestureListener())
+    private val gestureDetector = GestureDetectorEx(viewModel.app, FingerGestureListener(), !pref.input.gesture.longPressSwipeEnabled && pref.input.gesture.longPress == "none")
     private val swipeVsScale = SwipeVsScale()
     private val longPressSwipeEnabled = viewModel.pref.input.gesture.longPressSwipeEnabled
     private val swipeSensitivity = viewModel.pref.input.gesture.swipeSensitivity
@@ -248,7 +248,7 @@ class TouchHandler(private val viewModel: VncViewModel, private val dispatcher: 
      * [GestureDetectorEx] is used to for this purpose. It internally uses stock
      * [GestureDetector], and some custom event processing to detect more gestures.
      */
-    private class GestureDetectorEx(context: Context, val listener: GestureListenerEx) {
+    private class GestureDetectorEx(context: Context, val listener: GestureListenerEx, private val ignoreLongPress: Boolean) {
 
         /**
          * Detected gestures. Some of these come directly from stock [GestureDetector],
@@ -337,6 +337,9 @@ class TouchHandler(private val viewModel: VncViewModel, private val dispatcher: 
             }
 
             override fun onLongPress(e: MotionEvent) {
+                if (ignoreLongPress)
+                    return
+
                 if (doubleTapDetected)
                     return // Ignore long-press triggered during double-tap-swipe
 
